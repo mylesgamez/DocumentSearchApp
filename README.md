@@ -57,10 +57,10 @@ You can now use the DocumentSearchApp to upload, search, and download documents.
 ## API Endpoints
 DocumentSearchApp provides the following RESTful API endpoints:
 
-GET /api/documents: Get a list of all documents.
-GET /api/documents/search?query={searchQuery}: Search for documents based on a query.
-POST /api/documents: Upload a new document.
-GET /api/documents/{id}: Get details of a specific document.
-DELETE /api/documents/{id}: Delete a document.
-POST /api/documents/upload: Upload one or more documents.
-GET /api/documents/download/{id}: Download a specific document.
+- GET /api/documents: Get a list of all documents.
+- GET /api/documents/search?query={searchQuery}: Search for documents based on a query.
+- POST /api/documents: Upload a new document.
+- GET /api/documents/{id}: Get details of a specific document.
+- DELETE /api/documents/{id}: Delete a document.
+- POST /api/documents/upload: Upload one or more documents.
+- GET /api/documents/download/{id}: Download a specific document.
