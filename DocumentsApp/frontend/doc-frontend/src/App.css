@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.App-content {
+  padding: 20px;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-btn {
+  margin-bottom: 20px;
+}
+
+.document-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.document-list li {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-top: -1px;
+}
+
+.document-list a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: blue;
+}
