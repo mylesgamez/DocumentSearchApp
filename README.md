@@ -26,6 +26,40 @@ Before running the application, you need to have the following software installe
 - Node.js and npm (Node Package Manager)
 - MySQL (or another relational database of your choice)
 
+## Setting Up MySQL
+1. Download and install MySQL Server from the official MySQL website.
+https://dev.mysql.com/downloads/mysql/
+
+2. Start the MySQL server:
+```
+sudo systemctl start mysql
+```
+
+3. Secure your MySQL installation:
+```
+sudo mysql_secure_installation
+```
+
+4. Log in to the MySQL CLI using root:
+```
+mysql -u root -p
+```
+
+5. Create a database for the application:
+```
+CREATE DATABASE documentsdb;
+```
+
+6. Grant all privileges on the database to the user (Change 'root' and 'helloworld' as per your setup):
+```
+GRANT ALL ON documentsdb.* TO 'root'@'localhost' IDENTIFIED BY 'your password';
+```
+
+7. Exit the MySQL CLI:
+```
+EXIT; 
+```
+
 ## Installation
 
 ### Backend
@@ -43,7 +77,7 @@ Before running the application, you need to have the following software installe
 
 4. Build and run the Spring Boot backend:
   ```
-  ./gradlew bootRun
+  ./gradlew run
   ```
 
 5. Navigate to the frontend/doc-frontend directory:
