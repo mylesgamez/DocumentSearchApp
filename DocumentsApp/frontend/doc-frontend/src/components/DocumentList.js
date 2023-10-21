@@ -12,7 +12,6 @@ const DocumentList = ({ documents }) => {
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Content</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -20,7 +19,6 @@ const DocumentList = ({ documents }) => {
                 {documents.map(doc => (
                     <tr key={doc.id}>
                         <td>{doc.filename}</td>
-                        <td>{doc.content}</td>
                         <td>
                             {(doc.id !== null && doc.id !== undefined) ? (
                                 <button onClick={() => window.location.href = `${backendURL}/api/documents/download/${doc.id}`}>

@@ -68,6 +68,8 @@
 .document-list th {
   background-color: #3B82F6;
   color: white;
+  text-align: center;
+  /* Center align header content */
 }
 
 .document-list button {
