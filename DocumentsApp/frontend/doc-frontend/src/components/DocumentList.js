@@ -21,7 +21,6 @@ const DocumentList = ({ documents }) => {
                         <td>
                             {(doc.id !== null && doc.id !== undefined) ? (
                                 <>
-                                    {doc.id}
                                     <button onClick={() => window.location.href = `${backendURL}/api/documents/download/${doc.id}`}>Download</button>
                                 </>
                             ) : 'No ID available'}

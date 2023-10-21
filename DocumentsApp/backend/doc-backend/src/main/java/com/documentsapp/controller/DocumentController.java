@@ -38,7 +38,7 @@ public class DocumentController {
     @GetMapping
     public List<Document> getAllDocuments() {
         List<Document> docs = service.getAllDocuments();
-        System.out.println(docs); // Print out the list of documents
+        docs.forEach(doc -> System.out.println("Document ID: " + doc.getId())); // Print out each document's ID
         return docs;
     }
 

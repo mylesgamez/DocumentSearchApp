@@ -42,7 +42,10 @@ public class Document {
         this.user = user;
     }
 
-    // Getter and Setter methods for filename
+    public Long getId() {
+        return id;
+    }
+
     public String getFilename() {
         return filename;
     }
@@ -51,7 +54,6 @@ public class Document {
         this.filename = filename;
     }
 
-    // Getter and Setter methods for filetype
     public String getFiletype() {
         return filetype;
     }
@@ -60,7 +62,6 @@ public class Document {
         this.filetype = filetype;
     }
 
-    // Getter and Setter methods for fileUrl
     public String getFileUrl() {
         return fileUrl;
     }
@@ -80,4 +81,6 @@ public class Document {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }
