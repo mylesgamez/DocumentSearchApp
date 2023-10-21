@@ -2,6 +2,8 @@
 
 DocumentSearchApp is a full-stack Java and React application for document management and retrieval. It allows users to upload documents, search for documents based on keywords, and download documents.
 
+![Uploading Screenshot 2023-10-21 at 12.00.03 PM.png…]()
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
