@@ -100,3 +100,30 @@ DocumentSearchApp provides the following RESTful API endpoints:
 - DELETE /api/documents/{id}: Delete a document.
 - POST /api/documents/upload: Upload one or more documents.
 - GET /api/documents/download/{id}: Download a specific document.
+
+## Cloud Hosting Configuration
+To host the app on a cloud provider, you'll need to update several areas in the codebase. 
+
+### Backend - Server Configuration
+- WebConfig.java: Replace the ALLOWED_ORIGIN value from http://localhost:3000 with the frontend's cloud URL, e.g., https://yourfrontendapp.cloudprovider.com.
+- DocumentController.java: For file storage, rather than storing locally in the "uploads" directory, you'll want to use a cloud storage service like Amazon S3, Google Cloud Storage, etc. This requires refactoring the file upload and download functionalities to interact with the chosen cloud storage.
+
+### Backend - Database Configuration
+- Replace the local database connection URL in application.properties with the cloud database connection URL. Update the database username, password, and other required configurations according to your cloud database setup.
+
+### Frontend Configuration
+- App.js and DocumentList.js: Replace the backendURL value from http://localhost:8080 with your backend's cloud URL, e.g., https://yourbackendapi.cloudprovider.com.
+
+### Deploying to the Cloud
+- Backend: Package your application using the appropriate build tool (e.g., Gradle or Maven). Upload the generated artifact (e.g., a .jar file) to your cloud provider and set up a server instance to run it.
+- Frontend: Build your React application using npm run build. The built artifacts will be in the build directory. Deploy these files to a static website hosting service or a cloud provider that supports frontend app hosting. Ensure that both the frontend and backend applications are running and can communicate with each other. Adjust security groups or firewall settings as needed.
+
+### Environment Variables (Recommended for Security):
+- Instead of hardcoding URLs and other sensitive configurations, consider using environment variables.
+- On the frontend, you can access environment variables in React apps with process.env.REACT_APP_YOUR_VARIABLE_NAME.
+- On the backend, in a Spring Boot application, you can use the @Value annotation to inject properties.
+
+### Secure Your Application:
+- Ensure that all your APIs and endpoints are secured, especially when deploying to the cloud.
+- Use HTTPS for both frontend and backend services.
+- Implement authentication and authorization mechanisms to protect your endpoints.
