@@ -1,0 +1,24 @@
+# Java/Spring Boot backend specific
+/backend/doc-backend/build/
+/backend/doc-backend/.gradle/
+/backend/doc-backend/gradle/
+/backend/doc-backend/uploads/
+/backend/doc-backend/*.iml
+/backend/doc-backend/.idea/
+
+# React frontend specific
+/frontend/doc-frontend/node_modules/
+/frontend/doc-frontend/build/
+/frontend/doc-frontend/.env.local
+/frontend/doc-frontend/.env.development.local
+/frontend/doc-frontend/.env.test.local
+/frontend/doc-frontend/.env.production.local
+/frontend/doc-frontend/.eslintcache
+/frontend/doc-frontend/package-lock.json
+
+# General
+*.log
+*.swp
+.DS_Store
+*.class
+

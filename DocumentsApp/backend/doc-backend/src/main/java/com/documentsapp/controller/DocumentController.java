@@ -37,7 +37,9 @@ public class DocumentController {
 
     @GetMapping
     public List<Document> getAllDocuments() {
-        return service.getAllDocuments();
+        List<Document> docs = service.getAllDocuments();
+        System.out.println(docs); // Print out the list of documents
+        return docs;
     }
 
     @GetMapping("/search")
@@ -86,8 +88,8 @@ public class DocumentController {
                     doc.setTitle(fileName);
                     doc.setContent(fileContent);
                 } else {
-                    doc.setContent("File uploaded on " + java.time.LocalDateTime.now()); 
-                    doc.setTitle(fileName); 
+                    doc.setContent("File uploaded on " + java.time.LocalDateTime.now());
+                    doc.setTitle(fileName);
                 }
 
                 // Setting a default user for this document

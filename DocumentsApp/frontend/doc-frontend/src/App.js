@@ -4,7 +4,16 @@ import DocumentList from './components/DocumentList';
 
 function App() {
   const [documents, setDocuments] = useState([]);
-  const backendURL = "http://localhost:8080"; // assuming backend is running here
+  const [searchQuery, setSearchQuery] = useState('');
+  const backendURL = "http://localhost:8080";
+
+  useEffect(() => {
+    if (searchQuery === '') {
+      fetchDocuments();
+    } else {
+      searchDocuments(searchQuery);
+    }
+  }, [searchQuery]);
 
   const fetchDocuments = async () => {
     try {
@@ -19,6 +28,7 @@ function App() {
 
       if (response.status === 200) {
         const docs = await response.json();
+        console.log(docs); // Log the received documents
         setDocuments(docs);
       } else {
         console.error("Error fetching documents:", response.statusText);
@@ -28,26 +38,31 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchDocuments();
-  }, []);
+  const searchDocuments = async (query) => {
+    try {
+      const response = await fetch(`${backendURL}/api/documents/search?query=${query}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors'
+      });
 
-  const handleSearch = async query => {
-    const response = await fetch(`${backendURL}/api/documents/search?query=${query}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      mode: 'cors'
-    });
-
-    if (response.status === 200) {
-      const docs = await response.json();
-      setDocuments(docs);
-    } else {
-      console.error("Error fetching documents:", response.statusText);
+      if (response.status === 200) {
+        const docs = await response.json();
+        console.log(docs); // Log the received documents
+        setDocuments(docs);
+      } else {
+        console.error("Error searching documents:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error searching documents:", error);
     }
+  };
+
+  const handleSearch = query => {
+    setSearchQuery(query);
   };
 
   const uploadFiles = async (files) => {
