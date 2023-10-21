@@ -1,6 +1,9 @@
-// DocumentList.js:
 import React from 'react';
 
+/**
+ * DocumentList Component - Renders a list of documents in a table.
+ * @param {Array} documents - List of documents to display
+ */
 const DocumentList = ({ documents }) => {
     const backendURL = "http://localhost:8080";
 
@@ -20,9 +23,9 @@ const DocumentList = ({ documents }) => {
                         <td>{doc.content}</td>
                         <td>
                             {(doc.id !== null && doc.id !== undefined) ? (
-                                <>
-                                    <button onClick={() => window.location.href = `${backendURL}/api/documents/download/${doc.id}`}>Download</button>
-                                </>
+                                <button onClick={() => window.location.href = `${backendURL}/api/documents/download/${doc.id}`}>
+                                    Download
+                                </button>
                             ) : 'No ID available'}
                         </td>
                     </tr>

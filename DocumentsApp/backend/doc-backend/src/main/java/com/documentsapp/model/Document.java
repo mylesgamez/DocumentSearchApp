@@ -82,5 +82,4 @@ public class Document {
         this.user = user;
     }
 
-
 }

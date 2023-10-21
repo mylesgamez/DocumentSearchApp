@@ -1,8 +1,18 @@
+/**
+ * DocumentController provides the RESTful API for managing documents.
+ * It offers functionalities to create, retrieve, update, delete, and handle files associated with documents.
+ * 
+ * @author Myles Gamez
+ * @version 1.0
+ */
 package com.documentsapp.controller;
 
 import com.documentsapp.model.Document;
 import com.documentsapp.model.User;
 import com.documentsapp.service.DocumentService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,44 +38,82 @@ import java.util.UUID;
 @RequestMapping("/api/documents")
 public class DocumentController {
 
-    @Autowired
-    private DocumentService service;
+    private final DocumentService service;
 
-    // Set the default user ID to 1
     private final Long DEFAULT_USER_ID = 1L;
     private static final String UPLOAD_DIR = "uploads";
+    private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
 
+    @Autowired
+    public DocumentController(DocumentService service) {
+        this.service = service;
+    }
+
+    /**
+     * Retrieves all documents.
+     *
+     * @return List of all documents.
+     */
     @GetMapping
     public List<Document> getAllDocuments() {
         List<Document> docs = service.getAllDocuments();
-        docs.forEach(doc -> System.out.println("Document ID: " + doc.getId())); // Print out each document's ID
+        logger.info("Retrieved {} documents.", docs.size());
         return docs;
     }
 
+    /**
+     * Searches documents by title or content.
+     *
+     * @param query Search query string.
+     * @return List of documents matching the query.
+     */
     @GetMapping("/search")
     public List<Document> searchDocuments(@RequestParam String query) {
         return service.searchByTitleOrContent(query);
     }
 
+    /**
+     * Creates a new document.
+     *
+     * @param document Document object to be created.
+     * @return Created document.
+     */
     @PostMapping
     public Document createDocument(@RequestBody Document document) {
         return service.saveDocument(document);
     }
 
+    /**
+     * Retrieves a document by its ID.
+     *
+     * @param id Document ID.
+     * @return Document with the specified ID.
+     */
     @GetMapping("/{id}")
     public Document getDocumentById(@PathVariable Long id) {
         return service.getDocumentById(id);
     }
 
+    /**
+     * Deletes a document by its ID.
+     *
+     * @param id Document ID to be deleted.
+     */
     @DeleteMapping("/{id}")
     public void deleteDocument(@PathVariable Long id) {
         service.deleteDocument(id);
     }
 
+    /**
+     * Uploads multiple files and creates documents associated with them.
+     *
+     * @param files Array of files to be uploaded.
+     * @return List of created documents.
+     */
     @PostMapping("/uploadFiles")
     public List<Document> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         if (files == null || files.length == 0) {
-            throw new RuntimeException("No files provided!");
+            throw new IllegalArgumentException("No files provided!");
         }
 
         List<Document> savedDocs = new ArrayList<>();
@@ -82,7 +130,6 @@ public class DocumentController {
                 doc.setFiletype(file.getContentType());
                 doc.setFileUrl(targetLocation.toString());
 
-                // Extract title and content from text files
                 if (file.getContentType() != null && file.getContentType().startsWith("text")) {
                     String fileContent = new String(file.getBytes());
                     doc.setTitle(fileName);
@@ -92,13 +139,13 @@ public class DocumentController {
                     doc.setTitle(fileName);
                 }
 
-                // Setting a default user for this document
                 User defaultUser = new User();
                 defaultUser.setId(DEFAULT_USER_ID);
                 doc.setUser(defaultUser);
 
                 savedDocs.add(service.saveDocument(doc));
             } catch (IOException ex) {
+                logger.error("Failed to store file {}", fileName, ex);
                 throw new RuntimeException("Failed to store file " + fileName, ex);
             }
         }
@@ -106,6 +153,12 @@ public class DocumentController {
         return savedDocs;
     }
 
+    /**
+     * Downloads a file associated with the document ID.
+     *
+     * @param id Document ID.
+     * @return File resource to be downloaded.
+     */
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
         Document doc = service.getDocumentById(id);
@@ -117,6 +170,7 @@ public class DocumentController {
         try {
             resource = new UrlResource(path.toUri());
         } catch (MalformedURLException e) {
+            logger.error("Failed to convert path to URL", e);
             return ResponseEntity.badRequest().build();
         }
 
@@ -125,6 +179,12 @@ public class DocumentController {
                 .body(resource);
     }
 
+    /**
+     * Handles exceptions for the controller.
+     *
+     * @param ex Exception encountered.
+     * @return Error response.
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
         Map<String, String> response = new HashMap<>();

@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * SearchBox Component - Renders a text input for document searching.
+ * @param {function} onSearch - Callback to handle search input changes
+ */
 const SearchBox = ({ onSearch }) => (
     <input
         type="text"

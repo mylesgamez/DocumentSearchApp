@@ -1,21 +1,27 @@
+// Imports
 import React, { useState, useEffect } from 'react';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 import './App.css';
 
+/**
+ * App Component - main entry for the application.
+ * It handles the fetching, searching, and uploading of documents.
+ */
 function App() {
   const [documents, setDocuments] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const backendURL = "http://localhost:8080";
 
+  // Fetch or search documents when searchQuery changes
   useEffect(() => {
-    if (searchQuery === '') {
-      fetchDocuments();
-    } else {
-      searchDocuments(searchQuery);
-    }
+    if (searchQuery === '') fetchDocuments();
+    else searchDocuments(searchQuery);
   }, [searchQuery]);
 
+  /**
+   * Fetch all documents from the backend
+   */
   const fetchDocuments = async () => {
     try {
       const response = await fetch(`${backendURL}/api/documents`, {
@@ -29,7 +35,7 @@ function App() {
 
       if (response.status === 200) {
         const docs = await response.json();
-        console.log(docs); // Log the received documents
+        console.log(docs);
         setDocuments(docs);
       } else {
         console.error("Error fetching documents:", response.statusText);
@@ -39,6 +45,10 @@ function App() {
     }
   };
 
+  /**
+   * Search documents using the provided query
+   * @param {string} query - Search query
+   */
   const searchDocuments = async (query) => {
     try {
       const response = await fetch(`${backendURL}/api/documents/search?query=${query}`, {
@@ -52,7 +62,7 @@ function App() {
 
       if (response.status === 200) {
         const docs = await response.json();
-        console.log(docs); // Log the received documents
+        console.log(docs);
         setDocuments(docs);
       } else {
         console.error("Error searching documents:", response.statusText);
@@ -62,10 +72,18 @@ function App() {
     }
   };
 
+  /**
+   * Handle search input changes
+   * @param {string} query - Search query
+   */
   const handleSearch = query => {
     setSearchQuery(query);
   };
 
+  /**
+   * Upload files to the backend
+   * @param {FileList} files - List of files to upload
+   */
   const uploadFiles = async (files) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -81,12 +99,8 @@ function App() {
       });
 
       if (!response.ok) {
-        try {
-          const errorData = await response.json();
-          console.error("Error uploading files:", errorData.error || response.statusText);
-        } catch (parseError) {
-          console.error("Error parsing server response:", parseError);
-        }
+        const errorData = await response.json();
+        console.error("Error uploading files:", errorData.error || response.statusText);
         return;
       }
 
@@ -97,6 +111,10 @@ function App() {
     }
   };
 
+  /**
+   * Handle file input changes and initiate file upload
+   * @param {Event} e - Event object
+   */
   const handleFileChange = (e) => {
     uploadFiles(e.target.files);
   }

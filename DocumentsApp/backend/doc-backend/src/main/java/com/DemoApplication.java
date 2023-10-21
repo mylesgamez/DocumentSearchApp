@@ -13,14 +13,14 @@ import java.io.IOException;
 @ComponentScan(basePackages = { "com.example", "com.documentsapp" })
 public class DemoApplication {
 
-	private static final String UPLOAD_DIR = "uploads";
+	static final String UPLOAD_DIR = "uploads";
 
 	public static void main(String[] args) {
 		ensureDirectoriesExist();
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	private static void ensureDirectoriesExist() {
+	static void ensureDirectoriesExist() {
 		Path uploadDir = Paths.get(UPLOAD_DIR);
 		if (!Files.exists(uploadDir)) {
 			try {
