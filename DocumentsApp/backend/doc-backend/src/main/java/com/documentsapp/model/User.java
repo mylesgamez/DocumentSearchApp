@@ -28,5 +28,7 @@ public class User {
         this.email = email;
     }
 
-    // ... other getters and setters
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

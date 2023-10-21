@@ -1,13 +1,16 @@
-package com.example.docbackend;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
 
 @SpringBootApplication
+@ComponentScan(basePackages = { "com.example", "com.documentsapp" })
 public class DemoApplication {
 
 	private static final String UPLOAD_DIR = "uploads";

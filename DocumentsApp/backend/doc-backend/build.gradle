@@ -23,7 +23,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'com.example.docbackend.DemoApplication'
+    mainClassName = 'com.DemoApplication'
 }
 
 tasks.named('test') {

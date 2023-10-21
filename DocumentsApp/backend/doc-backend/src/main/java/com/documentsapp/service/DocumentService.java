@@ -1,6 +1,7 @@
 package com.documentsapp.service;
 
 import com.documentsapp.model.Document;
+import com.documentsapp.model.User;
 import com.documentsapp.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class DocumentService {
 
     private static final String UPLOAD_DIR = "uploads"; // Define your upload directory
     private static final Path UPLOAD_PATH = Paths.get(UPLOAD_DIR);
+    // This assumes that there is a user in the database with ID 1. Adjust as
+    // necessary.
+    private final Long DEFAULT_USER_ID = 1L;
 
     public DocumentService() {
         // Check if directory exists, if not create it
@@ -94,6 +98,14 @@ public class DocumentService {
                 doc.setFilename(fileName);
                 doc.setFiletype(file.getContentType());
                 doc.setFileUrl(targetLocation.toString());
+                doc.setContent("File uploaded on " + java.time.LocalDateTime.now()); // Placeholder content
+                doc.setTitle(fileName); // Set the filename as title for now
+
+                // Setting a default user for this document
+                User defaultUser = new User();
+                defaultUser.setId(DEFAULT_USER_ID);
+                doc.setUser(defaultUser);
+
                 savedDocuments.add(saveDocument(doc));
             } catch (IOException ex) {
                 throw new RuntimeException("Failed to store file " + fileName, ex);

@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 
 function App() {
   const [documents, setDocuments] = useState([]);
   const backendURL = "http://localhost:8080"; // assuming backend is running here
+
+  const fetchDocuments = async () => {
+    try {
+      const response = await fetch(`${backendURL}/api/documents`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors'
+      });
+
+      if (response.status === 200) {
+        const docs = await response.json();
+        setDocuments(docs);
+      } else {
+        console.error("Error fetching documents:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
 
   const handleSearch = async query => {
     const response = await fetch(`${backendURL}/api/documents/search?query=${query}`, {
@@ -31,15 +57,20 @@ function App() {
     }
 
     try {
-      const response = await fetch(`${backendURL}/api/documents/upload`, {
+      const response = await fetch(`${backendURL}/api/documents/uploadFiles`, {
         method: 'POST',
         body: formData,
-        mode: 'cors'
+        mode: 'cors',
+        credentials: 'include'
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error uploading files:", errorData.message || response.statusText);
+        try {
+          const errorData = await response.json();
+          console.error("Error uploading files:", errorData.error || response.statusText);
+        } catch (parseError) {
+          console.error("Error parsing server response:", parseError);
+        }
         return;
       }
 
@@ -48,8 +79,7 @@ function App() {
     } catch (error) {
       console.error("Error uploading files:", error.message);
     }
-  }
-
+  };
 
   const handleFileChange = (e) => {
     uploadFiles(e.target.files);
