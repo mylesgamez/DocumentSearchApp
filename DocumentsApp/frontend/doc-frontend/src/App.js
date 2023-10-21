@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
+import './App.css';
 
 function App() {
   const [documents, setDocuments] = useState([]);

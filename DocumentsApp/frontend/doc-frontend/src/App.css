@@ -1,15 +1,29 @@
 .App {
   text-align: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f5f7;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
+  background-color: #1f2937;
+  padding: 20px 0;
   color: white;
+  width: 100%;
+  position: fixed;
+  top: 0;
 }
 
 .App-content {
-  padding: 20px;
+  padding: 80px 20px 20px 20px;
+  width: 80%;
+  margin: auto;
+  max-width: 960px;
 }
 
 .file-input {
@@ -17,22 +31,55 @@
 }
 
 .upload-btn {
-  margin-bottom: 20px;
+  margin-top: 100px;
+  background-color: #3B82F6;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+  background-color: #2563EB;
+}
+
+.search-box {
+  padding: 10px 15px;
+  width: 100%;
+  margin-top: 30px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 4px 4px 10px #b2b2b2, -4px -4px 10px #ffffff;
 }
 
 .document-list {
-  list-style-type: none;
-  padding-left: 0;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.document-list li {
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin-top: -1px;
+.document-list th,
+.document-list td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
 }
 
-.document-list a {
-  margin-left: 10px;
-  text-decoration: none;
-  color: blue;
+.document-list th {
+  background-color: #3B82F6;
+  color: white;
+}
+
+.document-list button {
+  background-color: #3B82F6;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.document-list button:hover {
+  background-color: #2563EB;
 }
